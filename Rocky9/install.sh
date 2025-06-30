@@ -15,7 +15,7 @@ echo -e '* soft nofile 32768\n* hard nofile 32768' | sudo tee --append /etc/secu
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
-sudo dnf config-manager --set-enabled crb
+sudo /usr/bin/crb enable
 
 echo '>> Install extra packages for enterprise linux (EPEL) <<'
 sudo dnf install epel-release -y
