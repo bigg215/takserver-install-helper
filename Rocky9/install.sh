@@ -8,6 +8,8 @@ then
     exit 1 
 fi
 
+FILE=$1
+
 echo '>> Increase MAX connections <<'
 echo -e '* soft nofile 32768\n* hard nofile 32768' | sudo tee --append /etc/security/limits.conf
 echo '>> DONE <<'
@@ -30,7 +32,7 @@ echo '>> DONE << '
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
 echo '>> Install Takserver v5.X <<'
-echo "Installing $1"
+echo "Installing $FILE"
 sudo dnf install $1 -y
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
