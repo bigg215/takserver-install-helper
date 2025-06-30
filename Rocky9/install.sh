@@ -1,5 +1,10 @@
 #!/bin/bash
-#original script by Ryan Schilder March 2024
+YELLOW=$(tput setaf 3)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+NC=$(tput sgr0)
+SO=$(tput smso)
+SR=$(tput rmso)
 
 if [[ $# = 0 ]]
 then
@@ -107,12 +112,11 @@ sudo systemctl restart takserver
 
 echo "sleeping for 90 seconds..."
 TIMER=90
-printf "$TIMER \033[K\r"
 while [[ -d / ]]                                                  
 do
-	sleep 10s
+	printf "Sleeping for $TIMER seconds ... \033[K\r"
 	TIMER=$(($TIMER-10))
-	printf "$TIMER \033[K\r"
+	sleep 10s
   [[ $TIMER = 0 ]] && break
   continue
 done
