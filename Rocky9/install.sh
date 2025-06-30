@@ -15,9 +15,8 @@ echo -e '* soft nofile 32768\n* hard nofile 32768' | sudo tee --append /etc/secu
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
-sudo /usr/bin/crb enable
-
 echo '>> Install extra packages for enterprise linux (EPEL) <<'
+sudo /usr/bin/crb enable
 sudo dnf install epel-release -y
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
@@ -132,7 +131,7 @@ echo "enabling TAKserver signing, enrolled user certificates will be valid for 3
 
 sudo sed -i 's|<vbm enabled="false"/>|<certificateSigning CA="TAKServer"><certificateConfig>\n<nameEntries>\n<nameEntry name="O" value="TAK"/>\n<nameEntry name="OU" value="TAK"/>\n</nameEntries>\n</certificateConfig>\n<TAKServerCAConfig keystore="JKS" keystoreFile="certs/files/intermediate-ca-signing.jks"  keystorePass="atakatak" validityDays="3650" signatureAlg="SHA256WithRSA" />\n</certificateSigning>\n <vbm enabled="false"/>|g' /opt/tak/CoreConfig.xml
 
-sudo sed -i 's|<auth>|<auth x509useGroupCache="true">|g' /opt/tak/CoreConfig.xml
+sudo sed -i 's|<auth>|<auth x509groups="true" x509addAnonymous="false" x509checkRevocation=“true”>|g' /opt/tak/CoreConfig.xml
 
 echo "restarting tak server"
 sudo systemctl restart takserver
