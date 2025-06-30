@@ -23,29 +23,23 @@ echo '++++++++++++++++++++++++++++++++++++++++++'
 
 echo '>> Install postgres <<'
 sudo rpm --import https://download.postgresql.org/pub/repos/yum/keys/PGDG-RPM-GPG-KEY-RHEL
-## disable updates / freeze
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 sudo dnf -qy module disable postgresql && sudo dnf update -y
-## manual install of java 17
+
 sudo dnf install java-17-openjdk-devel -y
 echo '>> DONE << '
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
 echo '>> Install Takserver v5.X <<'
-echo 'Installing $1'
+echo `Installing $1`
 sudo dnf install $1 -y
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
 dnf install checkpolicy -y 
 
-sudo ./opt/tak/apply-selinux.sh && sudo semodule -l | grep takserver
-
-echo '>> Check JAVA version, should be 17.x <<'
-java -version
-
-echo '>> Choose 17.x if multiple options (openjdk) <<'
-sudo alternatives --config java
-echo '++++++++++++++++++++++++++++++++++++++++++'
+cd /opt/tak && sudo ./apply-selinux.sh && sudo semodule -l | grep takserver
+cd - 
 
 echo '>> Configure TAK Server <<'
 
