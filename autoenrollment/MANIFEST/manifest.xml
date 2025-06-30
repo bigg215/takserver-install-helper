@@ -1,7 +1,7 @@
 <MissionPackageManifest version="2">
   <Configuration>
-    <Parameter name=“uid” value=“”/>
-    <Parameter name="name" value=""/>
+    <Parameter name=“uid” value=“333faea6-97ef-49cb-9179-21685d2005a9”/>
+    <Parameter name="name" value="takserver.zip"/>
     <Parameter name="onReceiveDelete" value="true"/>
   </Configuration>
   <Contents>
