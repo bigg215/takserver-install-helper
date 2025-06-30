@@ -3,10 +3,9 @@
 
 if [[ $# = 0 ]]
 then
-	echo 'Exiting: add file name'
-    exit 1
-else
-    continue 
+	echo 'Exiting: missing filename arguement'
+	echo 'Usage: ./install.sh <takserver.rpm>'
+    exit 1 
 fi
 
 echo '>> Increase MAX connections <<'
@@ -31,7 +30,7 @@ echo '>> DONE << '
 echo '++++++++++++++++++++++++++++++++++++++++++'
 
 echo '>> Install Takserver v5.X <<'
-echo `Installing $1`
+echo "Installing $1"
 sudo dnf install $1 -y
 echo '>> DONE <<'
 echo '++++++++++++++++++++++++++++++++++++++++++'
@@ -54,7 +53,7 @@ echo 'INSTALL COMPLETE'
 sleep 10s
 
 echo '>> CERT GENERATION <<'
-olddir=$(pwd)
+OLDDIR=$(pwd)
 
 cd /opt/tak/certs/
 
@@ -64,22 +63,22 @@ sudo rm -vRf /opt/tak/cert/files
 echo "The following will edit cert-metadata.sh to create the correct certificates"
 echo "Please enter the following in CAPS, WITH NO SPACES!"
 
-read -p 'STATE: ' statevar
-read -p 'CITY: ' cityvar
-read -p 'ORGANIZATION: ' orgvar
-read -p 'ORGANIZATIONAL_UNIT: ' ouvar
+read -p 'STATE: ' STATEVAR
+read -p 'CITY: ' CITYVAR
+read -p 'ORGANIZATION: ' ORGVAR
+read -p 'ORGANIZATIONAL_UNIT: ' OUVAR
 
 #replace STATE
-sed -i 's/STATE=${STATE}/STATE='"$statevar"'/g' cert-metadata.sh
+sed -i 's/STATE=${STATE}/STATE='"$STATEVAR"'/g' cert-metadata.sh
 
 #replace CITY
-sed -i 's/CITY=${CITY}/CITY='"$cityvar"'/g' cert-metadata.sh
+sed -i 's/CITY=${CITY}/CITY='"$CITYVAR"'/g' cert-metadata.sh
 
 #replace ORG
-sed -i 's/ORGANIZATION=${ORGANIZATION:-TAK}/ORGANIZATION='"$orgvar"'/g' cert-metadata.sh
+sed -i 's/ORGANIZATION=${ORGANIZATION:-TAK}/ORGANIZATION='"$ORGVAR"'/g' cert-metadata.sh
 
 #replace OU
-sed -i 's/ORGANIZATIONAL_UNIT=${ORGANIZATIONAL_UNIT}/ORGANIZATIONAL_UNIT='"$ouvar"'/g' cert-metadata.sh
+sed -i 's/ORGANIZATIONAL_UNIT=${ORGANIZATIONAL_UNIT}/ORGANIZATIONAL_UNIT='"$OUVAR"'/g' cert-metadata.sh
 
 echo "Default CA password used"
 
@@ -106,23 +105,16 @@ echo "restarting tak server"
 sudo systemctl restart takserver
 
 echo "sleeping for 90 seconds..."
-sleep 10s
-echo "80"
-sleep 10s
-echo "70"
-sleep 10s
-echo "60"
-sleep 10s
-echo "50"
-sleep 10s
-echo "40"
-sleep 10s
-echo "30"
-sleep 10s
-echo "20"
-sleep 10s
-echo "10"
-sleep 10s
+TIMER=90
+printf "$TIMER \033[K\r"
+while [[ -d / ]]                                                  
+do
+	sleep 10s
+	TIMER=$(($TIMER-10))
+	printf "$TIMER \033[K\r"
+  [[ $TIMER = 0 ]] && break
+  continue
+done
 
 echo "configuring Client X509 certificate authentication on port 8089"
 
@@ -143,64 +135,21 @@ sudo sed -i 's|<auth>|<auth x509useGroupCache="true">|g' /opt/tak/CoreConfig.xml
 echo "restarting tak server"
 sudo systemctl restart takserver
 
-echo "sleeping for 270 seconds, otherwise promoting admin cert will fail"
-sleep 10s
-echo "260"
-sleep 10s
-echo "250"
-sleep 10s
-echo "240"
-sleep 10s
-echo "230"
-sleep 10s
-echo "220"
-sleep 10s 
-echo "210"
-sleep 10s
-echo "200"
-sleep 10s
-echo "190"
-sleep 10s
-echo "180"
-sleep 10s
-echo "170"
-sleep 10s
-echo "160"
-sleep 10s
-echo "150"
-sleep 10s
-echo "140"
-sleep 10s
-echo "130"
-sleep 10s
-echo "120"
-sleep 10s 
-echo "110"
-sleep 10s
-echo "100"
-sleep 10s
-echo "90"
-sleep 10s
-echo "80"
-sleep 10s
-echo "70"
-sleep 10s
-echo "60"
-sleep 10s
-echo "50"
-sleep 10s
-echo "40"
-sleep 10s
-echo "30"
-sleep 10s
-echo "20"
-sleep 10s
-echo "10"
-sleep 10s
+echo "sleeping for 270 seconds..."
+TIMER=270
+printf "$TIMER \033[K\r"
+while [[ -d / ]]                                                  
+do
+	sleep 10s
+	TIMER=$(($TIMER-10))
+	printf "$TIMER \033[K\r"
+  [[ $TIMER = 0 ]] && break
+  continue
+done
 
 echo "--==TAK SERVER CERTIFICATE CREATION SUCCESSFUL==--"
 
-cd $olddir
+cd $OLDDIR
 
 echo "promoting certs to admin"
 echo "promoting admin.pem to administrator"
