@@ -84,9 +84,7 @@ sed -i 's/ORGANIZATIONAL_UNIT=${ORGANIZATIONAL_UNIT}/ORGANIZATIONAL_UNIT='"$ouva
 echo "Default CA password used"
 
 echo "cert-metadata.sh updated"
-echo "creating certificates"
-
-su - atak 
+echo "creating certificates" 
 
 echo "creating Root CA - USER MUST ENTER CA NAME"
 sudo ./makeRootCa.sh
