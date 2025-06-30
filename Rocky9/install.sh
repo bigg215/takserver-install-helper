@@ -213,7 +213,7 @@ echo "copying admin.p12 to /home/atak/"
 sudo cp /opt/tak/certs/files/admin.p12 /home/atak/
 
 echo "changing owner of /home/atak/admin.p12 to tak user"
-sudo chown tak:tak /home/atak/admin.p12
+sudo chown atak:atak /home/atak/admin.p12
 
 echo "copying truststore-intermediate-ca.p12 to /home/atak/"
 sudo cp /opt/tak/certs/files/truststore-intermediate-ca.p12 /home/atak/
